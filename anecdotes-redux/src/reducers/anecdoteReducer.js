@@ -1,4 +1,5 @@
 
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -20,7 +21,7 @@ const initialState = anecdotesAtStart.map(asObject)
 
 const anecdoteReducer = (state = initialState, action) => {
   // console.log('state now: ', state)
-  console.log('action', action)
+  // console.log('action', action)
 
   switch (action.type) {
     case 'VOTE':
@@ -33,9 +34,12 @@ const anecdoteReducer = (state = initialState, action) => {
     case 'CREATE-ANECDOTE':
       return [...state, action.data]
 
+    default:
+      return state
+
   }
 
-  return state
+
 }
 
 export const createAnecdote = (content) => {
