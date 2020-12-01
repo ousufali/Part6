@@ -15,9 +15,6 @@ const anecdoteReducer = (state = [], action) => {
     case 'INIT-STATE':
       return action.data
 
-    default:
-      return state
-
   }
   return state
 

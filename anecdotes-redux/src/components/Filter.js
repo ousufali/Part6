@@ -1,16 +1,17 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { setFilterQuery } from '../reducers/filterReducer'
 
 
-const Filter = () => {
+const Filter = (props) => {
 
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
     const handleChange = (event) => {
         // input-field value is in variable event.target.value
         const query = event.target.value
-        dispatch(setFilterQuery(query))
+        // dispatch(setFilterQuery(query))
+        props.setFilterQuery(query)
 
     }
     const style = {
@@ -24,4 +25,9 @@ const Filter = () => {
     )
 }
 
-export default Filter
+const mapDispatchToProps = {
+    setFilterQuery
+}
+
+const ConnectedFilter = connect(null, mapDispatchToProps)(Filter)
+export default ConnectedFilter

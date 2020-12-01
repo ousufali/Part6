@@ -1,47 +1,38 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
-import { setNotification, unsetNotification } from '../reducers/notificationReducer'
+import { setNotification, } from '../reducers/notificationReducer'
 import Filter from './Filter'
 
 
-const Anecdotes = () => {
-    const dispatch = useDispatch()
-    const Query = useSelector(state => state.Filter)
-    const FilteredAnecdotes = useSelector(state => {
-        return state.Anecdotes.filter((anecdote) => anecdote.content.indexOf(Query) > -1)
-    })
-    //  useSelector(state => {
-    //     const data = state.Anecdotes
-    //     return data.filter((anecdote) => {
-    //         if (anecdote.content.indexOf(Query) > -1)
-    //             return anecdote
-    //     })
-    // })
-    // const anecdotes = useSelector(state => state.Anecdotes.sort((x, y) => y.votes - x.votes))
-    const anecdotes = FilteredAnecdotes.sort((x, y) => y.votes - x.votes)
+const Anecdotes = (props) => {
+    // const dispatch = useDispatch()
 
 
 
 
-    const vote = (id, content) => {
-        console.log('vote', id)
-        dispatch(voteAnecdote(id))
-        dispatch(setNotification("You votes '" + content + "'" , 5))
-        // setTimeout(() => dispatch(unsetNotification()), 5000)
-    }
+    // const vote = (id, content) => {
+    // console.log('vote', id)
+    // dispatch(voteAnecdote(id))
+
+    // dispatch(setNotification("You votes '" + content + "'", 5))
+    // setTimeout(() => dispatch(unsetNotification()), 5000)
+    // }
 
     return (
         <div>
             <Filter />
-            {anecdotes.map(anecdote =>
+            {props.Anecdotes.map(anecdote =>
                 <div key={anecdote.id}>
                     <div>
                         {anecdote.content}
                     </div>
                     <div>
                         has {anecdote.votes}
-                        <button onClick={() => vote(anecdote.id, anecdote.content)}>vote</button>
+                        <button onClick={() => {
+                            props.voteAnecdote(anecdote.id)
+                            props.setNotification("You votes '" + anecdote.content + "'", 5)
+                        }}>vote</button>
                     </div>
                 </div>
             )}
@@ -49,4 +40,23 @@ const Anecdotes = () => {
     )
 }
 
-export default Anecdotes
+const mapStateTOProps = (state) => {
+    const Query = state.Filter
+    const FilteredAnecdotes = state.Anecdotes.filter((anecdote) => anecdote.content.indexOf(Query) > -1)
+
+    const anecdotes = FilteredAnecdotes.sort((x, y) => y.votes - x.votes)
+
+    return {
+        Anecdotes: anecdotes,
+        Filter: state.Filter
+    }
+}
+const mapDispatchToProp = {
+
+    voteAnecdote,
+    setNotification
+
+}
+const ConectedAnecdote = connect(mapStateTOProps, mapDispatchToProp)(Anecdotes)
+
+export default ConectedAnecdote
