@@ -5,26 +5,24 @@ const notificationReducer = (state = '', action) => {
         case 'SET_NOTIFICATION':
 
             return action.data
-
-        case 'UNSET_NOTIFICATION':
-
-            return ''
-        default:
-            return state
     }
-
+    return state
 
 }
 
-export const setNotification = (message) => {
-    return {
-        type: 'SET_NOTIFICATION',
-        data: message
+export const setNotification = (message, duration) => {
+    return async dispatch => {
+        await dispatch({
+            type: 'SET_NOTIFICATION',
+            data: message
+        })
+        setTimeout(() => {
+            dispatch({
+                type: 'SET_NOTIFICATION',
+                data: ''
+            })
+        }, duration * 1000)
     }
 }
-export const unsetNotification = () => {
-    return {
-        type: 'UNSET_NOTIFICATION'
-    }
-}
+
 export default notificationReducer

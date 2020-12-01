@@ -11,6 +11,13 @@ const Anecdotes = () => {
     const FilteredAnecdotes = useSelector(state => {
         return state.Anecdotes.filter((anecdote) => anecdote.content.indexOf(Query) > -1)
     })
+    //  useSelector(state => {
+    //     const data = state.Anecdotes
+    //     return data.filter((anecdote) => {
+    //         if (anecdote.content.indexOf(Query) > -1)
+    //             return anecdote
+    //     })
+    // })
     // const anecdotes = useSelector(state => state.Anecdotes.sort((x, y) => y.votes - x.votes))
     const anecdotes = FilteredAnecdotes.sort((x, y) => y.votes - x.votes)
 
@@ -20,8 +27,8 @@ const Anecdotes = () => {
     const vote = (id, content) => {
         console.log('vote', id)
         dispatch(voteAnecdote(id))
-        dispatch(setNotification("You votes '" + content + "'"))
-        setTimeout(() => dispatch(unsetNotification()), 5000)
+        dispatch(setNotification("You votes '" + content + "'" , 5))
+        // setTimeout(() => dispatch(unsetNotification()), 5000)
     }
 
     return (
